@@ -301,7 +301,7 @@
 
             <div class="form-grid">
                 <div class="form-row">
-                    <label for="baseYearBE">ปีปัจจุบัน (พ.ศ.):</label>
+                    <label for="baseYearBE">ปี (พ.ศ.):</label>
                     <input type="number" id="baseYearBE" step="1" oninput="handleYearChange()">
                 </div>
 
@@ -584,8 +584,7 @@
 
         document.getElementById('yearInfo').innerHTML =
             `รอบปีปันผลตั้งแต่ <strong>1 เมษายน ${fiscal.previousYearBE}</strong> ถึง <strong>31 มีนาคม ${fiscal.currentYearBE}</strong><br>` +
-            `ปีรอบปันผลนี้มีจำนวนวันทั้งสิ้น <strong>${fiscal.totalDaysInCycle}</strong> วัน ` +
-            `และเดือนกุมภาพันธ์ ${fiscal.currentYearBE} มี <strong>${fiscal.febDays}</strong> วัน`;
+            `ปันผลรอบปีนี้มีจำนวนวันทั้งสิ้น <strong>${fiscal.totalDaysInCycle}</strong> วัน `;
     }
 
     function calculateDividend() {
