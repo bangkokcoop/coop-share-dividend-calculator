@@ -2,15 +2,22 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>การคำนวณเงินปันผล</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณเงินปันผลสหกรณ์</title>
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            padding-top: 5cm;
             background-color: #f0f8ff;
             margin: 20px;
             color: #1a237e;
         }
+
+        @media print {
+            body {
+                padding-top: 5cm;
+            }
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -19,53 +26,72 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+
         h1 {
             color: #1a237e;
             text-align: center;
+            margin-bottom: 20px;
         }
-        table {
-            width: 100%;
-            margin: 20px 0;
-            border-collapse: collapse;
+
+        .form-row {
+            margin-bottom: 15px;
         }
-        table, th, td {
-            border: 1px solid #00008b;
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
         }
-        th, td {
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #00008b;
-            color: white;
-        }
-        .total-row {
-            font-weight: bold;
-        }
+
         input[type="number"] {
-            width: 60%;
-            padding: 5px;
+            width: 180px;
+            padding: 6px 8px;
             border-radius: 4px;
             border: 1px solid #ddd;
             box-sizing: border-box;
             font-size: 14px;
         }
-        label {
-            font-size: 16px;
-            margin-right: 10px;
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
         }
-        .red-text {
-            color: red;
+
+        table, th, td {
+            border: 1px solid #00008b;
         }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00008b;
+            color: white;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #f3f6ff;
+        }
+
+        .red-text,
         .red-title {
             color: red;
         }
+
         .info-box {
             margin-top: 10px;
-            padding: 10px;
+            padding: 12px;
             background: #eef4ff;
             border-left: 4px solid #1a237e;
             border-radius: 6px;
+            line-height: 1.6;
+        }
+
+        ul {
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -74,13 +100,15 @@
 <div class="container">
     <h1>คำนวณเงินปันผลสหกรณ์</h1>
 
-    <label for="baseYearBE">ปีรอบปันผล (พ.ศ.): </label>
-    <input type="number" id="baseYearBE" value="2568" step="1" oninput="handleYearChange()">
-    <br><br>
+    <div class="form-row">
+        <label for="baseYearBE">ปีปัจจุบัน (พ.ศ.): </label>
+        <input type="number" id="baseYearBE" step="1" oninput="handleYearChange()">
+    </div>
 
-    <label for="dividendRate">อัตราการจ่ายปันผล (%): </label>
-    <input type="number" id="dividendRate" value="" step="0.01" oninput="calculateDividend()"> %
-    <br><br>
+    <div class="form-row">
+        <label for="dividendRate">อัตราการจ่ายปันผล (%): </label>
+        <input type="number" id="dividendRate" step="0.01" placeholder="เช่น 5.25" oninput="calculateDividend()"> %
+    </div>
 
     <div class="info-box" id="yearInfo"></div>
 
@@ -96,95 +124,95 @@
             <tr>
                 <td>
                     <span class="red-text">
-                        ยอดหุ้นยกมาต้นปี<br>
+                        ยอดหุ้นยกมา<br>
                         (<span id="carryoverLabel">31 มีนาคม 2568</span>)
                     </span>
                 </td>
-                <td><input type="number" id="carryover" oninput="calculateDividend()"></td>
+                <td><input type="number" id="carryover" min="0" oninput="calculateDividend()"></td>
                 <td id="totalCarryover">0.00</td>
                 <td id="dividendCarryover">0.00</td>
                 <td id="cumulativeCarryover">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel1">เมษายน 2568</td>
-                <td><input type="number" id="month1" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month1" min="0" oninput="calculateDividend()"></td>
                 <td id="total1">0.00</td>
                 <td id="dividend1">0.00</td>
                 <td id="cumulative1">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel2">พฤษภาคม 2568</td>
-                <td><input type="number" id="month2" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month2" min="0" oninput="calculateDividend()"></td>
                 <td id="total2">0.00</td>
                 <td id="dividend2">0.00</td>
                 <td id="cumulative2">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel3">มิถุนายน 2568</td>
-                <td><input type="number" id="month3" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month3" min="0" oninput="calculateDividend()"></td>
                 <td id="total3">0.00</td>
                 <td id="dividend3">0.00</td>
                 <td id="cumulative3">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel4">กรกฎาคม 2568</td>
-                <td><input type="number" id="month4" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month4" min="0" oninput="calculateDividend()"></td>
                 <td id="total4">0.00</td>
                 <td id="dividend4">0.00</td>
                 <td id="cumulative4">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel5">สิงหาคม 2568</td>
-                <td><input type="number" id="month5" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month5" min="0" oninput="calculateDividend()"></td>
                 <td id="total5">0.00</td>
                 <td id="dividend5">0.00</td>
                 <td id="cumulative5">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel6">กันยายน 2568</td>
-                <td><input type="number" id="month6" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month6" min="0" oninput="calculateDividend()"></td>
                 <td id="total6">0.00</td>
                 <td id="dividend6">0.00</td>
                 <td id="cumulative6">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel7">ตุลาคม 2568</td>
-                <td><input type="number" id="month7" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month7" min="0" oninput="calculateDividend()"></td>
                 <td id="total7">0.00</td>
                 <td id="dividend7">0.00</td>
                 <td id="cumulative7">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel8">พฤศจิกายน 2568</td>
-                <td><input type="number" id="month8" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month8" min="0" oninput="calculateDividend()"></td>
                 <td id="total8">0.00</td>
                 <td id="dividend8">0.00</td>
                 <td id="cumulative8">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel9">ธันวาคม 2568</td>
-                <td><input type="number" id="month9" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month9" min="0" oninput="calculateDividend()"></td>
                 <td id="total9">0.00</td>
                 <td id="dividend9">0.00</td>
                 <td id="cumulative9">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel10">มกราคม 2569</td>
-                <td><input type="number" id="month10" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month10" min="0" oninput="calculateDividend()"></td>
                 <td id="total10">0.00</td>
                 <td id="dividend10">0.00</td>
                 <td id="cumulative10">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel11">กุมภาพันธ์ 2569</td>
-                <td><input type="number" id="month11" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month11" min="0" oninput="calculateDividend()"></td>
                 <td id="total11">0.00</td>
                 <td id="dividend11">0.00</td>
                 <td id="cumulative11">0.00</td>
             </tr>
             <tr>
                 <td id="monthLabel12">มีนาคม 2569</td>
-                <td><input type="number" id="month12" oninput="calculateDividend()"></td>
+                <td><input type="number" id="month12" min="0" oninput="calculateDividend()"></td>
                 <td id="total12">0.00</td>
                 <td id="dividend12">-</td>
                 <td id="cumulative12">0.00</td>
@@ -199,45 +227,47 @@
         </tbody>
     </table>
 
-    <p><strong class="red-title">*การคำนวณยอดหุ้นยกมาต้นปี <span id="noteBaseYear1">2568</span></strong></p>
+    <p><strong class="red-title">*การคำนวณยอดหุ้นยกมา</strong></p>
     <p>
-        ยอดหุ้นยกมาต้นปี <span id="noteBaseYear2">2568</span> =
-        ยอดหุ้นเดือนมีนาคมของปี <span id="noteNextYear1">2569</span> -
-        (ยอดส่งค่าหุ้นต่อเดือนของปี <span id="noteBaseYear3">2568</span> × จำนวนเดือนที่ส่ง)
+        ยอดหุ้นยกมา ณ 31 มีนาคม <span id="notePrevYear1">2568</span>
+        = ยอดหุ้นเดือนมีนาคม <span id="noteCurrentYear1">2569</span>
+        - (ยอดส่งค่าหุ้นระหว่างเดือนเมษายน <span id="notePrevYear2">2568</span>
+        ถึง มีนาคม <span id="noteCurrentYear2">2569</span>)
     </p>
-    <p>หากมีการเปลี่ยนแปลงค่าหุ้นให้คิดเป็นช่วง เช่น</p>
+    <p>หากมีการเปลี่ยนแปลงค่าหุ้น ให้คำนวณแยกเป็นแต่ละช่วง เช่น</p>
     <ul>
         <li>
-            ช่วงที่ 1 : ส่งค่าหุ้น 1,000 บาทต่อเดือน ตั้งแต่เม.ย.<span id="noteBaseYear4">2568</span>
-            ถึง ส.ค.<span id="noteBaseYear5">2568</span> ของปีที่ผ่านมา (จำนวน 5 เดือน) = 5,000 บาท
+            ช่วงที่ 1 : ส่งค่าหุ้น 1,000 บาทต่อเดือน ตั้งแต่ เม.ย.<span id="notePrevYear3">2568</span>
+            ถึง ส.ค.<span id="notePrevYear4">2568</span> จำนวน 5 เดือน = 5,000 บาท
         </li>
         <li>
-            ช่วงที่ 2 : ส่งค่าหุ้น 1,500 บาทต่อเดือน ตั้งแต่ก.ย.<span id="noteBaseYear6">2568</span>
-            ถึง มี.ค.<span id="noteNextYear2">2569</span> ของปีที่ผ่านมา (จำนวน 7 เดือน) = 10,500 บาท
+            ช่วงที่ 2 : ส่งค่าหุ้น 1,500 บาทต่อเดือน ตั้งแต่ ก.ย.<span id="notePrevYear5">2568</span>
+            ถึง มี.ค.<span id="noteCurrentYear3">2569</span> จำนวน 7 เดือน = 10,500 บาท
         </li>
     </ul>
-    <p>ดังนั้น (สมมติยอดหุ้นเดือนมีนาคมของปี <span id="noteNextYear3">2569</span> = 24,000)</p>
     <p>
-        ยอดหุ้นยกมาต้นปี <span id="noteBaseYear7">2568</span> =
-        24,000 - 5,000 - 10,500
+        ดังนั้น หากยอดหุ้นเดือนมีนาคม <span id="noteCurrentYear4">2569</span> เท่ากับ 24,000 บาท
     </p>
-    <p>ยอดหุ้นยกมาต้นปี <span id="noteBaseYear8">2568</span> = 8,500 บาท</p>
+    <p>
+        ยอดหุ้นยกมา ณ 31 มีนาคม <span id="notePrevYear6">2568</span>
+        = 24,000 - 5,000 - 10,500 = 8,500 บาท
+    </p>
 </div>
 
 <script>
     const monthConfig = [
-        { name: 'เมษายน', jsMonth: 3, yearOffsetBE: 0 },
-        { name: 'พฤษภาคม', jsMonth: 4, yearOffsetBE: 0 },
-        { name: 'มิถุนายน', jsMonth: 5, yearOffsetBE: 0 },
-        { name: 'กรกฎาคม', jsMonth: 6, yearOffsetBE: 0 },
-        { name: 'สิงหาคม', jsMonth: 7, yearOffsetBE: 0 },
-        { name: 'กันยายน', jsMonth: 8, yearOffsetBE: 0 },
-        { name: 'ตุลาคม', jsMonth: 9, yearOffsetBE: 0 },
-        { name: 'พฤศจิกายน', jsMonth: 10, yearOffsetBE: 0 },
-        { name: 'ธันวาคม', jsMonth: 11, yearOffsetBE: 0 },
-        { name: 'มกราคม', jsMonth: 0, yearOffsetBE: 1 },
-        { name: 'กุมภาพันธ์', jsMonth: 1, yearOffsetBE: 1 },
-        { name: 'มีนาคม', jsMonth: 2, yearOffsetBE: 1 }
+        { name: 'เมษายน', jsMonth: 3, yearType: 'previous' },
+        { name: 'พฤษภาคม', jsMonth: 4, yearType: 'previous' },
+        { name: 'มิถุนายน', jsMonth: 5, yearType: 'previous' },
+        { name: 'กรกฎาคม', jsMonth: 6, yearType: 'previous' },
+        { name: 'สิงหาคม', jsMonth: 7, yearType: 'previous' },
+        { name: 'กันยายน', jsMonth: 8, yearType: 'previous' },
+        { name: 'ตุลาคม', jsMonth: 9, yearType: 'previous' },
+        { name: 'พฤศจิกายน', jsMonth: 10, yearType: 'previous' },
+        { name: 'ธันวาคม', jsMonth: 11, yearType: 'previous' },
+        { name: 'มกราคม', jsMonth: 0, yearType: 'current' },
+        { name: 'กุมภาพันธ์', jsMonth: 1, yearType: 'current' },
+        { name: 'มีนาคม', jsMonth: 2, yearType: 'current' }
     ];
 
     function formatNumber(value) {
@@ -251,8 +281,8 @@
         return parseFloat(document.getElementById(id).value) || 0;
     }
 
-    function getBaseYearBE() {
-        return parseInt(document.getElementById('baseYearBE').value) || 2568;
+    function getCurrentYearBE() {
+        return parseInt(document.getElementById('baseYearBE').value) || (new Date().getFullYear() + 543);
     }
 
     function beToAd(beYear) {
@@ -267,26 +297,29 @@
     }
 
     function getFiscalYearInfo() {
-        const baseYearBE = getBaseYearBE();
-        const startYearAD = beToAd(baseYearBE);
+        const currentYearBE = getCurrentYearBE();
+        const previousYearBE = currentYearBE - 1;
 
-        // รอบปีปันผล: 1 เม.ย. ปีฐาน ถึง 31 มี.ค. ปีถัดไป
-        const fiscalStart = new Date(startYearAD, 3, 1);      // 1 เม.ย.
-        const fiscalEnd = new Date(startYearAD + 1, 2, 31);   // 31 มี.ค.
+        const currentYearAD = beToAd(currentYearBE);
+        const previousYearAD = beToAd(previousYearBE);
+
+        // รอบปีปันผล: 1 เม.ย. ปีก่อน -> 31 มี.ค. ปีปัจจุบัน
+        const fiscalStart = new Date(previousYearAD, 3, 1);
+        const fiscalEnd = new Date(currentYearAD, 2, 31);
         const totalDaysInCycle = diffDaysInclusive(fiscalStart, fiscalEnd);
 
-        const febYearAD = startYearAD + 1;
-        const febDays = new Date(febYearAD, 2, 0).getDate(); // จำนวนวันเดือนกุมภาพันธ์
+        // ตรวจจำนวนวันเดือนกุมภาพันธ์ของปีที่กรอก
+        const febDays = new Date(currentYearAD, 2, 0).getDate();
 
         return {
-            baseYearBE,
-            nextYearBE: baseYearBE + 1,
-            startYearAD,
-            febYearAD,
-            febDays,
-            totalDaysInCycle,
+            currentYearBE,
+            previousYearBE,
+            currentYearAD,
+            previousYearAD,
             fiscalStart,
-            fiscalEnd
+            fiscalEnd,
+            totalDaysInCycle,
+            febDays
         };
     }
 
@@ -294,7 +327,11 @@
         const fiscal = getFiscalYearInfo();
         const config = monthConfig[monthIndex - 1];
 
-        const depositYearAD = beToAd(fiscal.baseYearBE + config.yearOffsetBE);
+        const depositYearAD = config.yearType === 'previous'
+            ? fiscal.previousYearAD
+            : fiscal.currentYearAD;
+
+        // เริ่มรับปันผลตั้งแต่วันแรกของเดือนถัดไป
         const nextMonthStart = new Date(depositYearAD, config.jsMonth + 1, 1);
 
         if (nextMonthStart > fiscal.fiscalEnd) {
@@ -307,43 +344,45 @@
     function updateYearLabels() {
         const fiscal = getFiscalYearInfo();
 
-        document.getElementById('carryoverLabel').textContent = `31 มีนาคม ${fiscal.baseYearBE}`;
+        document.getElementById('carryoverLabel').textContent = `31 มีนาคม ${fiscal.previousYearBE}`;
 
         for (let i = 1; i <= 12; i++) {
             const cfg = monthConfig[i - 1];
-            const yearBE = fiscal.baseYearBE + cfg.yearOffsetBE;
+            const yearBE = cfg.yearType === 'previous'
+                ? fiscal.previousYearBE
+                : fiscal.currentYearBE;
+
             document.getElementById(`monthLabel${i}`).textContent = `${cfg.name} ${yearBE}`;
         }
 
-        document.getElementById('noteBaseYear1').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear2').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear3').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear4').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear5').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear6').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear7').textContent = fiscal.baseYearBE;
-        document.getElementById('noteBaseYear8').textContent = fiscal.baseYearBE;
+        document.getElementById('notePrevYear1').textContent = fiscal.previousYearBE;
+        document.getElementById('notePrevYear2').textContent = fiscal.previousYearBE;
+        document.getElementById('notePrevYear3').textContent = fiscal.previousYearBE;
+        document.getElementById('notePrevYear4').textContent = fiscal.previousYearBE;
+        document.getElementById('notePrevYear5').textContent = fiscal.previousYearBE;
+        document.getElementById('notePrevYear6').textContent = fiscal.previousYearBE;
 
-        document.getElementById('noteNextYear1').textContent = fiscal.nextYearBE;
-        document.getElementById('noteNextYear2').textContent = fiscal.nextYearBE;
-        document.getElementById('noteNextYear3').textContent = fiscal.nextYearBE;
+        document.getElementById('noteCurrentYear1').textContent = fiscal.currentYearBE;
+        document.getElementById('noteCurrentYear2').textContent = fiscal.currentYearBE;
+        document.getElementById('noteCurrentYear3').textContent = fiscal.currentYearBE;
+        document.getElementById('noteCurrentYear4').textContent = fiscal.currentYearBE;
 
         document.getElementById('yearInfo').innerHTML =
-            `รอบปีปันผล <strong>${fiscal.baseYearBE} - ${fiscal.nextYearBE}</strong> ` +
-            `มีจำนวนวันทั้งสิ้น <strong>${fiscal.totalDaysInCycle}</strong> วัน ` +
-            `(กุมภาพันธ์ ${fiscal.nextYearBE} มี <strong>${fiscal.febDays}</strong> วัน)`;
+            `รอบปีปันผลตั้งแต่ <strong>1 เมษายน ${fiscal.previousYearBE}</strong> ถึง <strong>31 มีนาคม ${fiscal.currentYearBE}</strong><br>` +
+            `ปีรอบปันผลนี้มีจำนวนวันทั้งสิ้น <strong>${fiscal.totalDaysInCycle}</strong> วัน ` +
+            `และเดือนกุมภาพันธ์ ${fiscal.currentYearBE} มี <strong>${fiscal.febDays}</strong> วัน`;
     }
 
     function calculateDividend() {
         const fiscal = getFiscalYearInfo();
         const dividendRate = getInputNumber('dividendRate') / 100;
 
-        let totalSum = 0;
+        let totalInputSum = 0;
         let cumulativeSum = 0;
 
         const carryoverAmount = getInputNumber('carryover');
 
-        // ยอดหุ้นยกมาต้นปี ถือครบทั้งรอบปี
+        // หุ้นยกมาคิดปันผลเต็มรอบปี
         const carryoverDividend = carryoverAmount * dividendRate;
         cumulativeSum += carryoverDividend;
 
@@ -364,16 +403,14 @@
 
             runningTotal += monthAmount;
             cumulativeSum += dividend;
+            totalInputSum += monthAmount;
 
             document.getElementById(`total${month}`).textContent = formatNumber(runningTotal);
             document.getElementById(`dividend${month}`).textContent = month === 12 ? '-' : formatNumber(dividend);
             document.getElementById(`cumulative${month}`).textContent = formatNumber(cumulativeSum);
-
-            totalSum += monthAmount;
         }
 
-        const totalWithCarryover = totalSum + carryoverAmount;
-        document.getElementById('totalAll').textContent = formatNumber(totalWithCarryover);
+        document.getElementById('totalAll').textContent = formatNumber(carryoverAmount + totalInputSum);
         document.getElementById('cumulativeAll').textContent = formatNumber(cumulativeSum);
     }
 
@@ -382,7 +419,9 @@
         calculateDividend();
     }
 
-    // เรียกใช้ครั้งแรกตอนเปิดหน้า
+    // ตั้งค่าเริ่มต้นเป็นปีปัจจุบัน พ.ศ.
+    document.getElementById('baseYearBE').value = new Date().getFullYear() + 543;
+
     handleYearChange();
 </script>
 
