@@ -144,7 +144,6 @@
 
         table {
             width: 100%;
-            min-width: 780px;
             border-collapse: collapse;
         }
 
@@ -200,7 +199,7 @@
                 width: 100%;
                 max-width: none;
                 margin: 0;
-                padding: 16px 12px 24px;
+                padding: 16px 8px 24px;
                 border-radius: 0;
                 box-shadow: none;
             }
@@ -229,19 +228,34 @@
             }
 
             .table-wrapper {
-                margin-left: -12px;
-                margin-right: -12px;
-                padding-left: 12px;
-                padding-right: 12px;
+                margin-top: 18px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             table {
-                min-width: 720px;
+                width: 100%;
+                min-width: 0;
+                table-layout: fixed;
             }
 
             th, td {
-                padding: 8px 6px;
-                font-size: 14px;
+                padding: 6px 4px;
+                font-size: 12px;
+                line-height: 1.35;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            th {
+                font-size: 11px;
+            }
+
+            td input[type="number"] {
+                width: 100%;
+                min-width: 0;
+                padding: 7px 5px;
+                font-size: 13px;
             }
         }
 
@@ -305,6 +319,13 @@
 
             <div class="table-wrapper">
                 <table>
+                    <colgroup>
+                        <col style="width: 18%;">
+                        <col style="width: 32%;">
+                        <col style="width: 16%;">
+                        <col style="width: 16%;">
+                        <col style="width: 18%;">
+                    </colgroup>
                     <tr>
                         <th>เดือน</th>
                         <th>ส่งหุ้นแต่ละเดือน (บาท)</th>
@@ -608,9 +629,6 @@
     }
 
     function clearForm() {
-        const confirmed = confirm('ต้องการล้างข้อมูลทั้งหมดหรือไม่');
-        if (!confirmed) return;
-
         document.getElementById('dividendRate').value = '';
         document.getElementById('carryover').value = '';
 
@@ -618,7 +636,8 @@
             document.getElementById(`month${i}`).value = '';
         }
 
-        calculateDividend();
+        document.getElementById('baseYearBE').value = new Date().getFullYear() + 543;
+        handleYearChange();
     }
 
     async function exportPDF() {
